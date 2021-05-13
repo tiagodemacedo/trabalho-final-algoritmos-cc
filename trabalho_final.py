@@ -76,17 +76,16 @@ def eh_cliente(cpf):
 
 
 # produtos disponíveis, quantidade e preço organizados em formato de dicionário
-estoque = {
-    "1": "Pasta de dente", "preco": 12.00,
-    "2": "Feijão", "preco": 6.00,
-    "3": "Arroz", "preco": 4.50,
-    "4": "Macarrão", "preco": 3.75,
-    "5": "Bolacha", "preco": 4.80,
-    "6": "Leite", "preco": 2.90,
-    "7": "Shampoo", "preco": 14.75,
-    "8": "Detergente", "preco": 1.90,
-    "9": "Sabonete", "preco": 3.90,
-    "10": "Sabão em pó", "preco": 16.20}
+estoque_preco = [[1, "Pasta de dente", 12.0],
+                 [2, "Feijão", 6.00],
+                 [3, "Arroz", 4.50],
+                 [4, "Macarrão", 3.75],
+                 [5, "Bolacha", 4.80],
+                 [6, "Leite", 2.90],
+                 [7, "Shampoo", 14.75],
+                 [8, "Detergente", 1.90],
+                 [9, "Sabonete", 3.90],
+                 [10, "Sabão em pó", 16.20]]
 
 # cadastros existentes
 lista_clientes = list()
@@ -94,6 +93,7 @@ cadastro = dict()
 
 # menu
 while True:
+    print()
     print("Seja bem-vindo(a) a AmazonCC!")
     menu = int(input("""
     1 - Cadastro
@@ -102,7 +102,7 @@ while True:
     4 - Pagar conta
     5 - Consultar Cliente
     6 - Mostrar produtos disponíveis
-    0 - Sair"""))
+    0 - Sair\n"""))
     if menu == 0:
         break
     elif menu == 1:
@@ -110,12 +110,15 @@ while True:
         if cpf_validar(cpf) == True:
             cadastro["cpf"] = cpf
             cadastro["nome"] = input("Digite seu nome: ").upper()
-            cadastro["e-mail"] = input("Digite seu melhor e-mail!").lower()
-            cadastro["senha"] = int(input("Crie uma senha de 4 números!"))
+            cadastro["e-mail"] = input("Digite seu melhor e-mail:").lower()
+            cadastro["senha"] = int(input("Crie uma senha de 4 números:"))
             cadastro["limite"] = 1000.00
             lista_clientes.append(cadastro.copy())
     elif menu == 6:
-        for k, v in estoque.items():
-            print(f"Cód. {k:>3} -{v:->15}")
+        print(f"{'LISTA DE PRODUTOS DISPONÍVEIS':>33}")
+        print("=-=" * 13)
+        for item in estoque_preco:
+            print(f"Cód. {item[0]:<3} {item[1]:.<20} r${item[2]:6.2f}")
+        print("=-=" * 13)
 
 # print(lista_clientes)
