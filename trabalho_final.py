@@ -48,11 +48,13 @@ def cpf_validar(param1):
 # print(cpf_validar(teste_cpf))
 
 # verificação se cliente consta na "lista_clientes".
-def eh_cliente(cpf):
-    if str(cpf) in lista_clientes:
-        return True
-    else:
-        return False
+def eh_cliente(cpf, lista):
+    for k in lista:
+        for valor in k:
+            if str(valor) == str(cpf):
+                return True
+            else:
+                return False
 
 
 # cadastro cliente
@@ -88,8 +90,8 @@ estoque_preco = [[1, "Pasta de dente", 12.0],
                  [10, "Sabão em pó", 16.20]]
 
 # cadastros existentes
-lista_clientes = list()
-cadastro = dict()
+lista_clientes = []
+carrinho_compra = []
 
 # menu
 while True:
@@ -105,15 +107,34 @@ while True:
     0 - Sair\n"""))
     if menu == 0:
         break
-    elif menu == 1:
+    elif menu == 1:  # cadastro
         cpf = str(input("Digite seu Cpf: "))
         if cpf_validar(cpf) == True:
-            cadastro["cpf"] = cpf
-            cadastro["nome"] = input("Digite seu nome: ").upper()
-            cadastro["e-mail"] = input("Digite seu melhor e-mail:").lower()
-            cadastro["senha"] = int(input("Crie uma senha de 4 números:"))
-            cadastro["limite"] = 1000.00
-            lista_clientes.append(cadastro.copy())
+            nome = input("Digite seu nome: ").upper()
+            email = input("Digite seu melhor e-mail:").lower()
+            senha = int(input("Crie uma senha de 4 números:"))
+            limite = 1000.00
+            lista_clientes.append((cpf, nome, email, senha, limite))
+        else:
+            print("Número de Cpf inválido!")
+        print(lista_clientes)
+    elif menu == 2:  # comprar
+        cpf = input("Digite seu Cpf: ")
+        if eh_cliente(cpf) == True:
+            while True:
+                id = int(input("Digite o código do produto.\nOu \"-1\" para fechar o carrinho:"))
+                if id == -1:
+                    break
+                elif id <= 0 or id > len(estoque_preco):
+                    print("Opção inválida ou código não consta disponível em lista de produtos!!!")
+                    continue
+                indice_id = id - 1
+                qtd = int(input(f"Quantidade de {estoque_preco[indice_id][1]} que deseja comprar?"))
+                id = 0
+                carrinho_compra.append([indice_id, qtd])
+                print(carrinho_compra)
+        else:
+            print("Cpf não encontrado, realize seu cadastro.")
     elif menu == 6:
         print(f"{'LISTA DE PRODUTOS DISPONÍVEIS':>33}")
         print("=-=" * 13)
@@ -122,3 +143,5 @@ while True:
         print("=-=" * 13)
 
 # print(lista_clientes)
+print(carrinho_compra)
+print(lista_clientes)
