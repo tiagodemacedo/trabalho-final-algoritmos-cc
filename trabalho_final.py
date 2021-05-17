@@ -57,6 +57,18 @@ def eh_cliente(cpf, lista):
                 return False
 
 
+def pega_preco(indice_produto):
+    for x in estoque_preco:
+        if indice_produto == x[0]:
+            return x[2]
+
+
+def pega_nome_produto(indice_produto):
+    for x in estoque_preco:
+        if indice_produto == x[0]:
+            return x[1]
+
+
 # cadastro cliente
 # def novo_cliente(nome, cpf, senha):
 #     nome = input("Digite seu nome: ").upper()
@@ -78,7 +90,8 @@ def eh_cliente(cpf, lista):
 
 
 # produtos disponíveis, quantidade e preço organizados em formato de dicionário
-estoque_preco = [[1, "Pasta de dente", 12.0],
+estoque_preco = [[0, "Arroz", 7.00],
+                 [1, "Pasta de dente", 12.0],
                  [2, "Feijão", 6.00],
                  [3, "Arroz", 4.50],
                  [4, "Macarrão", 3.75],
@@ -90,7 +103,7 @@ estoque_preco = [[1, "Pasta de dente", 12.0],
                  [10, "Sabão em pó", 16.20]]
 
 # cadastros existentes
-lista_clientes = []
+lista_clientes = [["06164351936"]]
 carrinho_compra = []
 
 # menu
@@ -115,31 +128,50 @@ while True:
             senha = int(input("Crie uma senha de 4 números:"))
             limite = 1000.00
             lista_clientes.append((cpf, nome, email, senha, limite))
+            print("Cadastro efetuado com sucesso")
+            print()
         else:
             print("Número de Cpf inválido!")
         print(lista_clientes)
     elif menu == 2:  # comprar
         cpf = input("Digite seu Cpf: ")
-        if eh_cliente(cpf) == True:
+        if eh_cliente(cpf, lista_clientes) == True:
             while True:
                 id = int(input("Digite o código do produto.\nOu \"-1\" para fechar o carrinho:"))
                 if id == -1:
                     break
-                elif id <= 0 or id > len(estoque_preco):
+                elif id < 0 or id > len(estoque_preco):
                     print("Opção inválida ou código não consta disponível em lista de produtos!!!")
                     continue
-                indice_id = id - 1
+                indice_id = id
                 qtd = int(input(f"Quantidade de {estoque_preco[indice_id][1]} que deseja comprar?"))
-                id = 0
                 carrinho_compra.append([indice_id, qtd])
                 print(carrinho_compra)
         else:
             print("Cpf não encontrado, realize seu cadastro.")
+    elif menu == 3:
+        print(f"{'SEU CARRINHO DE COMPRAS':>33}")
+        print("=-=" * 18)
+        print(f"{'Produtos':>15}          {'Quantidade':^10}    {'Soma Parcial':^10}")
+        print()
+        soma_total = 0
+        for item in carrinho_compra:
+            preco_item = pega_preco(item[0])
+            nome_item = pega_nome_produto(item[0])
+            soma_itens = preco_item * item[1]
+            soma_total += preco_item * item[1]
+            print(f"{nome_item:>15}    x    {item[1]:^10}      R${soma_itens:6.2f}")
+        print()
+        print(f"Valor total do carrinho:                R${soma_total:6.2f}")
+        print()
+        print("=-=" * 18)
+
+
     elif menu == 6:
         print(f"{'LISTA DE PRODUTOS DISPONÍVEIS':>33}")
         print("=-=" * 13)
         for item in estoque_preco:
-            print(f"Cód. {item[0]:<3} {item[1]:.<20} r${item[2]:6.2f}")
+            print(f"Cód. {item[0]:<3} {item[1]:.<20} R${item[2]:6.2f}")
         print("=-=" * 13)
 
 # print(lista_clientes)
