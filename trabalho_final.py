@@ -68,11 +68,13 @@ def pega_nome_produto(indice_produto):
         if indice_produto == x[0]:
             return x[1]
 
+
 def retorna_limite_cliente(cpf):
     for x in lista_clientes:
         for cliente in x:
             if x[0] == cpf:
                 return x[4]
+
 
 def atualiza_limite_cliente_pos_compras(cpf):
     for x in lista_clientes:
@@ -80,6 +82,24 @@ def atualiza_limite_cliente_pos_compras(cpf):
             if x[0] == cpf:
                 x[4] = retorna_limite_cliente(cpf) - soma_total
                 return x[4]
+
+
+def conta_a_pagar(cpf):
+    for x in lista_clientes:
+        for cliente in x:
+            if x[0] == cpf:
+                conta = x[4] - 1000.00
+                return conta
+
+
+def paga_conta(cpf):
+    for x in lista_clientes:
+        for cliente in x:
+            if x[0] == cpf:
+                x[4] += pagar
+                return x[4]
+
+
 # cadastro cliente
 # def novo_cliente(nome, cpf, senha):
 #     nome = input("Digite seu nome: ").upper()
@@ -178,7 +198,16 @@ while True:
         print(f"Limite disponível para compra: R$ {retorna_limite_cliente(cpf) - soma_total:6.2f}")
         print("=-=" * 18)
         atualiza_limite_cliente_pos_compras(cpf)
-    # elif menu == 4:
+    elif menu == 4:
+        print(f"Valor da sua conta atual: {conta_a_pagar(cpf):6.2f} ")
+        pagar = float(input("Qual valor que deseja pagar de sua conta atual: "))
+        paga_conta(cpf)
+        print("=-=" * 18)
+        print()
+        print(f"Seu limite atualizado é de R${retorna_limite_cliente(cpf):6.2f}\nNo momento sua conta a pagar é de R${conta_a_pagar(cpf):6.2f}")
+        print()
+        print("=-=" * 18)
+
 
     elif menu == 6:
         print(f"{'LISTA DE PRODUTOS DISPONÍVEIS':>33}")
