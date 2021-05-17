@@ -68,7 +68,18 @@ def pega_nome_produto(indice_produto):
         if indice_produto == x[0]:
             return x[1]
 
+def retorna_limite_cliente(cpf):
+    for x in lista_clientes:
+        for cliente in x:
+            if x[0] == cpf:
+                return x[4]
 
+def atualiza_limite_cliente_pos_compras(cpf):
+    for x in lista_clientes:
+        for cliente in x:
+            if x[0] == cpf:
+                x[4] = retorna_limite_cliente(cpf) - soma_total
+                return x[4]
 # cadastro cliente
 # def novo_cliente(nome, cpf, senha):
 #     nome = input("Digite seu nome: ").upper()
@@ -103,7 +114,7 @@ estoque_preco = [[0, "Arroz", 7.00],
                  [10, "Sabão em pó", 16.20]]
 
 # cadastros existentes
-lista_clientes = [["06164351936"]]
+lista_clientes = [["06164351936", "Clarine", "cc@company.com", 3333, 1000.00]]
 carrinho_compra = []
 
 # menu
@@ -164,8 +175,10 @@ while True:
         print()
         print(f"Valor total do carrinho:                R${soma_total:6.2f}")
         print()
+        print(f"Limite disponível para compra: R$ {retorna_limite_cliente(cpf) - soma_total:6.2f}")
         print("=-=" * 18)
-
+        atualiza_limite_cliente_pos_compras(cpf)
+    # elif menu == 4:
 
     elif menu == 6:
         print(f"{'LISTA DE PRODUTOS DISPONÍVEIS':>33}")
