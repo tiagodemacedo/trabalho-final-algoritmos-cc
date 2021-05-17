@@ -100,6 +100,12 @@ def paga_conta(cpf):
                 return x[4]
 
 
+def consultar_cliente(cpf):
+    for x in lista_clientes:
+        if x[0] == cpf:
+            print(f"Nome do cliente: {x[1]}\nE-mail: {x[2]}")
+
+
 # cadastro cliente
 # def novo_cliente(nome, cpf, senha):
 #     nome = input("Digite seu nome: ").upper()
@@ -134,7 +140,8 @@ estoque_preco = [[0, "Arroz", 7.00],
                  [10, "Sabão em pó", 16.20]]
 
 # cadastros existentes
-lista_clientes = [["06164351936", "Clarine", "cc@company.com", 3333, 1000.00]]
+lista_clientes = [["06164351936", "Clarine", "cc@company.com", 3333, 1000.00],
+                  ["05436556957", "Tiago", "tt@company.com", 4444, 2000.00]]
 carrinho_compra = []
 
 # menu
@@ -204,10 +211,13 @@ while True:
         paga_conta(cpf)
         print("=-=" * 18)
         print()
-        print(f"Seu limite atualizado é de R${retorna_limite_cliente(cpf):6.2f}\nNo momento sua conta a pagar é de R${conta_a_pagar(cpf):6.2f}")
+        print(
+            f"Seu limite atualizado é de R${retorna_limite_cliente(cpf):6.2f}\nNo momento sua conta a pagar é de R${conta_a_pagar(cpf):6.2f}")
         print()
         print("=-=" * 18)
-
+    elif menu == 5:
+        cpf = input("Digite o Cpf que deseja consultar: ")
+        consultar_cliente(cpf)
 
     elif menu == 6:
         print(f"{'LISTA DE PRODUTOS DISPONÍVEIS':>33}")
