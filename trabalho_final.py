@@ -44,17 +44,11 @@ def cpf_validar(param1):
     return validacao
 
 
-# teste_cpf = input("Digite o Cpf: ")
-# print(cpf_validar(teste_cpf))
-
 # verificação se cliente consta na "lista_clientes".
-def eh_cliente(cpf, lista):
-    for k in lista:
-        for valor in k:
-            if str(valor) == str(cpf):
-                return True
-            else:
-                return False
+def eh_cliente(cpf):
+    for k in lista_clientes:
+        if k[0] == cpf:
+            return True
 
 
 def pega_preco(indice_produto):
@@ -106,26 +100,6 @@ def consultar_cliente(cpf):
             print(f"Nome do cliente: {x[1]}\nE-mail: {x[2]}")
 
 
-# cadastro cliente
-# def novo_cliente(nome, cpf, senha):
-#     nome = input("Digite seu nome: ").upper()
-#     cpf = int(input("Digite seu CPF: "))
-#     if str(cpf) in cadastro_clientes:
-#         print("CPF já cadastrado.")
-#     else:
-#         if str(cpf) not in cadastro_clientes:
-#             if cpf_validar(cpf) == True:
-#                 while True:
-#                     x = int(input("Crie uma senha de 4 números: "))
-#                     y = int(input("Digite novamente sua senha para confirmar: "))
-#                     if x == y:
-#                         senha = x
-#                         break
-#             else:
-#                 print("CPF inválido, tente novamente!")
-#     cadastro_clientes.append(nome, cpf, senha)
-
-
 # produtos disponíveis, quantidade e preço organizados em formato de dicionário
 estoque_preco = [[0, "Arroz", 7.00],
                  [1, "Pasta de dente", 12.0],
@@ -137,11 +111,21 @@ estoque_preco = [[0, "Arroz", 7.00],
                  [7, "Shampoo", 14.75],
                  [8, "Detergente", 1.90],
                  [9, "Sabonete", 3.90],
-                 [10, "Sabão em pó", 16.20]]
+                 [10, "Sabão em pó", 16.20],
+                 [11, "Erva Mate", 9.00],
+                 [12, "Carvão 5kg", 11.00],
+                 [13, "Pimenta em pó", 3.00],
+                 [14, "Álcool", 5.20],
+                 [15, "Amaciante", 6.60],
+                 [16, "Cocô Ralado", 3.45],
+                 [17, "Leite Condensado", 4.75],
+                 [18, "Kit Feijoada", 14.40],
+                 [19, "Trigo", 3.75],
+                 [20, "Ovos Dúzia", 7.00]]
 
 # cadastros existentes
 lista_clientes = [["06164351936", "Clarine", "cc@company.com", 3333, 1000.00],
-                  ["05436556957", "Tiago", "tt@company.com", 4444, 2000.00]]
+                  ["05436556957", "Tiago", "tt@company.com", 4444, 1000.00]]
 carrinho_compra = []
 
 # menu
@@ -173,7 +157,7 @@ while True:
         print(lista_clientes)
     elif menu == 2:  # comprar
         cpf = input("Digite seu Cpf: ")
-        if eh_cliente(cpf, lista_clientes) == True:
+        if eh_cliente(cpf) == True:
             while True:
                 id = int(input("Digite o código do produto.\nOu \"-1\" para fechar o carrinho:"))
                 if id == -1:
@@ -205,6 +189,7 @@ while True:
         print(f"Limite disponível para compra: R$ {retorna_limite_cliente(cpf) - soma_total:6.2f}")
         print("=-=" * 18)
         atualiza_limite_cliente_pos_compras(cpf)
+        carrinho_compra = ()
     elif menu == 4:
         print(f"Valor da sua conta atual: {conta_a_pagar(cpf):6.2f} ")
         pagar = float(input("Qual valor que deseja pagar de sua conta atual: "))
@@ -218,7 +203,6 @@ while True:
     elif menu == 5:
         cpf = input("Digite o Cpf que deseja consultar: ")
         consultar_cliente(cpf)
-
     elif menu == 6:
         print(f"{'LISTA DE PRODUTOS DISPONÍVEIS':>33}")
         print("=-=" * 13)
